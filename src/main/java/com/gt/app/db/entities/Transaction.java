@@ -1,6 +1,10 @@
 package com.gt.app.db.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.math.BigDecimal;
 
 /**
  * Transaction
@@ -15,7 +19,7 @@ public class Transaction {
     @GeneratedValue
     private Integer id;
 
-    private Double amount;
+    private BigDecimal amount;
 
     private Long datetime;
 
@@ -27,6 +31,8 @@ public class Transaction {
 
     private String type;
 
+    private int uid;
+
     public Integer getId() {
         return id;
     }
@@ -36,11 +42,11 @@ public class Transaction {
         return this;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public Transaction setAmount(Double amount) {
+    public Transaction setAmount(BigDecimal amount) {
         this.amount = amount;
         return this;
     }
@@ -79,5 +85,13 @@ public class Transaction {
     public Transaction setTo(Integer to) {
         this.to = to;
         return this;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public int getUid() {
+        return uid;
     }
 }
