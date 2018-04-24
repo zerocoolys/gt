@@ -1,5 +1,8 @@
 package com.gt.app.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 /**
  * NameRequest
  *
@@ -7,6 +10,8 @@ package com.gt.app.request;
  * @since 2018/4/24
  */
 public class NameRequest {
+    @Email(message = "email is invalid.")
+    @NotNull(message = "email is empty.")
     private String email;
 
     public String getEmail() {
