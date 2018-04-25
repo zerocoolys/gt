@@ -4,7 +4,6 @@ import com.gt.app.commons.TransactionVO;
 import com.gt.app.db.entities.Account;
 import com.gt.app.db.entities.Transaction;
 import com.gt.app.db.entities.repo.TransactionRepo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +28,7 @@ public class TransactionService {
     private AccountService accountService;
 
     /**
-     *
-     * @param uid transation uid
+     * @param uid    transation uid
      * @param from
      * @param to
      * @param type
@@ -63,7 +61,8 @@ public class TransactionService {
             transactionVO.setFrom(computeName(idNamePair, transaction.getFrom()))
                     .setTo(computeName(idNamePair, transaction.getTo()))
                     .setAmount(transaction.getAmount().doubleValue())
-                    .setType(transaction.getType());
+                    .setType(transaction.getType())
+                    .setId(transaction.getId());
 
             transactionVO.setDatetime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date(transaction.getDatetime())));
             return transactionVO;
@@ -87,7 +86,7 @@ public class TransactionService {
      */
     public void generateTx(Integer from, Integer to, double amount, long now) {
         createTx(from, from, to, "transfer", amount, now);
-        createTx(to, to, from, "receive", amount, now);
+        createTx(to, from, to, "receive", amount, now);
 
     }
 }

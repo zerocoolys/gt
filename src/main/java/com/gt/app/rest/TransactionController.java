@@ -2,6 +2,8 @@ package com.gt.app.rest;
 
 import com.google.common.base.Strings;
 import com.gt.app.commons.Response;
+import com.gt.app.constant.ErrorMsg;
+import com.gt.app.constant.MessageConstant;
 import com.gt.app.db.entities.Account;
 import com.gt.app.request.NameRequest;
 import com.gt.app.request.TransferRequest;
@@ -27,6 +29,9 @@ import javax.servlet.http.HttpServletResponse;
 public class TransactionController extends BaseController {
 
     @Autowired
+    private ErrorMsg errorMsg;
+
+    @Autowired
     private TransactionService transactionService;
 
     @Autowired
@@ -46,7 +51,7 @@ public class TransactionController extends BaseController {
 
         if (account == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return Responses.err("account not exists.");
+            return Responses.err(errorMsg.getMessage(MessageConstant.MSG_ERR_ACCOUNT_NOT_EXISTS));
         }
         return Responses.ok(transactionService.getTxByAccount(account.getId(), account.getName()));
     }
@@ -69,7 +74,12 @@ public class TransactionController extends BaseController {
             return Responses.ok();
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return Responses.err(msg);
+            return Responses.err(errorMsg.getMessage(msg));
         }
+    }
+
+    @Override
+    ErrorMsg errorMsg() {
+        return errorMsg;
     }
 }

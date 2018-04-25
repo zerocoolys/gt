@@ -2,6 +2,8 @@ package com.gt.app.rest;
 
 import com.gt.app.commons.AccountVO;
 import com.gt.app.commons.Response;
+import com.gt.app.constant.ErrorMsg;
+import com.gt.app.constant.MessageConstant;
 import com.gt.app.db.entities.Account;
 import com.gt.app.db.entities.repo.AccountRepo;
 import com.gt.app.request.NameRequest;
@@ -27,6 +29,9 @@ import java.math.BigDecimal;
  */
 @RestController
 public class AccountController extends BaseController {
+
+    @Autowired
+    private ErrorMsg errorMsg;
 
     @Autowired
     private AccountRepo accountRepo;
@@ -69,7 +74,13 @@ public class AccountController extends BaseController {
         }
 
         String name = nameRequest.getEmail();
-        Account account = new Account().setName(name).setBalance(BONUS);
+
+        Account account = accountRepo.findAccountByName(name);
+        if (account != null) {
+            return Responses.err(errorMsg.getMessage(MessageConstant.MSG_ERR_EMAIL_DUPLICATE));
+        }
+
+        account = new Account().setName(name).setBalance(BONUS);
 
         account = accountRepo.save(account);
 
@@ -83,4 +94,8 @@ public class AccountController extends BaseController {
         }
     }
 
+    @Override
+    ErrorMsg errorMsg() {
+        return errorMsg;
+    }
 }

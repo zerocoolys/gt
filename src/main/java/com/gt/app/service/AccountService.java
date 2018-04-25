@@ -1,5 +1,6 @@
 package com.gt.app.service;
 
+import com.gt.app.constant.MessageConstant;
 import com.gt.app.db.entities.Account;
 import com.gt.app.db.entities.repo.AccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +22,22 @@ public class AccountService {
     @Transactional
     public String transfer(String from, String to, double amount) {
         if (amount <= 0) {
-            return "amount invalid";
+            return MessageConstant.MSG_ERR_TRANSFER_AMOUNT_INVALID;
         }
 
         Account account = accountRepo.findAccountByName(from);
         if (account == null) {
-            return "account not found";
+            return MessageConstant.MSG_ERR_TRANSFER_SRC_ACCOUNT_NOT_EXISTS;
         }
 
         BigDecimal original = account.getBalance();
         if (original.compareTo(BigDecimal.valueOf(amount)) < 0) {
-            return "balance is not enough.";
+            return MessageConstant.MSG_ERR_TRANSFER_EXCEED;
         }
 
         Account transferee = accountRepo.findAccountByName(to);
         if (transferee == null) {
-            return "transferee not exists.";
+            return MessageConstant.MSG_ERR_TRANSFER_DST_ACCOUNT_NOT_EXISTS;
         }
 
         accountRepo.updateAccountBalanceByIdAndBalance(amount * -1, account.getId(), account.getBalance());

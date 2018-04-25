@@ -4,6 +4,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import static com.gt.app.constant.MessageConstant.*;
+
 /**
  * TransferRequest
  *
@@ -12,15 +14,15 @@ import javax.validation.constraints.Positive;
  */
 public class TransferRequest {
 
-    @Email(message = "source account is invalid.")
-    @NotNull(message = "source account is empty.")
+    @Email(message = MSG_ERR_TRANSFER_SRC_ACCOUNT_INVALID)
+    @NotNull(message = MSG_ERR_TRANSFER_SRC_ACCOUNT_EMPTY)
     private String email;
 
-    @Email(message = "transferee account is invalid.")
-    @NotNull(message = "transferee account is empty.")
+    @Email(message = MSG_ERR_TRANSFER_DST_ACCOUNT_INVALID)
+    @NotNull(message = MSG_ERR_TRANSFER_DST_ACCOUNT_EMPTY)
     private String transferee;
 
-    @Positive(message = "amount is invalid.")
+    @Positive(message = MSG_ERR_TRANSFER_AMOUNT_INVALID)
     private double amount;
 
     public String getEmail() {

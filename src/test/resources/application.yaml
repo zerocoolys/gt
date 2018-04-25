@@ -1,12 +1,11 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1/gt
+    url: jdbc:mysql://127.0.0.1/gt_test
     username: root
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: create-drop
+    show-sql: false
   messages:
     basename: message
-
