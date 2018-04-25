@@ -10,6 +10,9 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.Instant;
 
+/**
+ * @author yousheng
+ */
 @Service
 public class AccountService {
 
@@ -19,7 +22,15 @@ public class AccountService {
     @Autowired
     private TransactionService transactionService;
 
-    @Transactional
+    /**
+     * create transaction
+     *
+     * @param from   source account
+     * @param to     destination account
+     * @param amount
+     * @return response msg if create failed, or null if successed.
+     */
+    @Transactional(rollbackOn = Exception.class)
     public String transfer(String from, String to, double amount) {
         if (amount <= 0) {
             return MessageConstant.MSG_ERR_TRANSFER_AMOUNT_INVALID;
@@ -50,10 +61,22 @@ public class AccountService {
         return null;
     }
 
+    /**
+     * get account by name
+     *
+     * @param name
+     * @return
+     */
     public Account findByName(String name) {
         return accountRepo.findAccountByName(name);
     }
 
+    /**
+     * get account by id
+     *
+     * @param id
+     * @return
+     */
     public Account findById(int id) {
         return accountRepo.findById(id).orElse(new Account().setName("ACCOUNT NOT EXISTS"));
     }

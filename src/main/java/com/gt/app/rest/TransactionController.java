@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * TransactionController
- *
+ * User transaction web api
  * @author yousheng
  * @since 2018/4/24
  */
@@ -37,6 +37,14 @@ public class TransactionController extends BaseController {
     @Autowired
     private AccountService accountService;
 
+    /**
+     * get user transactions
+     *
+     * @param nameRequest
+     * @param bindingResult
+     * @param response
+     * @return
+     */
     @PostMapping("/get_transactions")
     public Response getTransactions(@RequestBody @Validated NameRequest nameRequest,
                                     BindingResult bindingResult,
@@ -56,6 +64,14 @@ public class TransactionController extends BaseController {
         return Responses.ok(transactionService.getTxByAccount(account.getId(), account.getName()));
     }
 
+    /**
+     * create a transaction
+     *
+     * @param request
+     * @param bindingResult
+     * @param response
+     * @return
+     */
     @PostMapping("/transfer")
     public Response transfer(@RequestBody @Validated TransferRequest request, BindingResult bindingResult, HttpServletResponse response) {
 

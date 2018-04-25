@@ -13,7 +13,11 @@ import java.util.List;
  */
 public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
 
-    List<Transaction> getAllByFromOrTo(int from, int to);
-
+    /**
+     * get all transactions by user id
+     *
+     * @param accountId
+     * @return
+     */
     List<Transaction> getAllByUid(int accountId);
 }
