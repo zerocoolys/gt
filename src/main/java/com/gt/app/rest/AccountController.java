@@ -90,6 +90,7 @@ public class AccountController extends BaseController {
         } else {
             AccountVO accountVO = new AccountVO();
             BeanUtils.copyProperties(account, accountVO);
+            accountVO.setBalance(account.getBalance().doubleValue());
             return Responses.ok(accountVO);
         }
     }
