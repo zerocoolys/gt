@@ -27,14 +27,21 @@ public interface AccountRepo extends JpaRepository<Account, Integer> {
 
     /**
      * update account balance
+     *
      * @param amount
      * @param id
      * @param balance the last balance read from db
      */
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE account SET balance = balance +:amount WHERE id = :id AND balance = :balance")
-    public void updateAccountBalanceByIdAndBalance(@Param("amount") double amount,
-                                                   @Param("id") int id,
-                                                   @Param("balance") BigDecimal balance);
+    int updateAccountBalanceByIdAndBalance(@Param("amount") double amount,
+                                           @Param("id") int id,
+                                           @Param("balance") BigDecimal balance);
+
+
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE account SET balance = balance +:amount WHERE id = :id")
+    int updateAccountBalanceById(@Param("amount") double amount,
+                                 @Param("id") int id);
 
 }

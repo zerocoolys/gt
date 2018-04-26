@@ -31,7 +31,7 @@ public class AccountService {
      * @return response msg if create failed, or null if successed.
      */
     @Transactional(rollbackOn = Exception.class)
-    public String transfer(String from, String to, double amount) {
+    public String transfer(String from, String to, double amount) throws Exception {
         if (amount <= 0) {
             return MessageConstant.MSG_ERR_TRANSFER_AMOUNT_INVALID;
         }
@@ -51,8 +51,10 @@ public class AccountService {
             return MessageConstant.MSG_ERR_TRANSFER_DST_ACCOUNT_NOT_EXISTS;
         }
 
-        accountRepo.updateAccountBalanceByIdAndBalance(amount * -1, account.getId(), account.getBalance());
-        accountRepo.updateAccountBalanceByIdAndBalance(amount, transferee.getId(), transferee.getBalance());
+        if (accountRepo.updateAccountBalanceByIdAndBalance(amount * -1, account.getId(), account.getBalance()) != 1) {
+            return MessageConstant.MSG_ERR_ACCOUNT_BALANCE_UNCONSISTENT;
+        }
+        accountRepo.updateAccountBalanceById(amount, transferee.getId());
 
         long now = Instant.now().toEpochMilli();
 

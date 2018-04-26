@@ -17,4 +17,6 @@ public interface MessageConstant {
     String MSG_ERR_TRANSFER_DST_ACCOUNT_EMPTY = "msg.err.transfer_dst_account_empty";
 
     String MSG_ERR_ACCOUNT_NOT_EXISTS = "msg.err.account_not_exists";
+
+    String MSG_ERR_ACCOUNT_BALANCE_UNCONSISTENT = "msg.err.account_balance_unconsistent";
 }

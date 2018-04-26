@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * TransactionController
  * User transaction web api
+ *
  * @author yousheng
  * @since 2018/4/24
  */
@@ -84,7 +85,12 @@ public class TransactionController extends BaseController {
         String to = request.getTransferee();
         double amount = request.getAmount();
 
-        String msg = accountService.transfer(from, to, amount);
+        String msg = null;
+        try {
+            msg = accountService.transfer(from, to, amount);
+        } catch (Exception e) {
+            return Responses.err(errorMsg.getMessage(e.getMessage()));
+        }
 
         if (Strings.isNullOrEmpty(msg)) {
             return Responses.ok();
